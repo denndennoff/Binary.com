@@ -13,7 +13,7 @@ import org.sikuli.script.Key;
 import org.sikuli.script.Screen;
 
 public class TickTrade {
-
+// test
 	private final String up = "up";
 	private final String down = "down";
 	private String trend;
