@@ -1,5 +1,11 @@
 package binopt;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
 import org.sikuli.basics.Settings;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.ImagePath;
@@ -26,13 +32,30 @@ public class TickTrade {
 	private int count;
 	private int[] stat;
 
-	public TickTrade(double defaultStake, int[] stat) {
+	public TickTrade(double defaultStake) {
 		this.defaultStake = defaultStake;
 		this.stake = defaultStake;
-		this.stat = stat;
+
 	}
 
 	// === Trading methods
+
+	public static void writeToFile(String text) {
+
+		File log = new File("C:/1/balance.txt");
+
+		try {
+			if (!log.exists()) {
+				log.createNewFile();
+			}
+			FileWriter fileWriter = new FileWriter(log, false);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(text);
+			bufferedWriter.close();
+		} catch (IOException e) {
+			System.out.println("COULD NOT LOG!!");
+		}
+	}
 
 	public void makeStake(double stake) throws FindFailed {
 		Screen s = new Screen();
@@ -60,7 +83,7 @@ public class TickTrade {
 	}
 
 	public void trade() throws FindFailed {
-		stat = new int[10];
+		int[] stat = new int[10];
 		int redCount = 0;
 		int lost = 0;
 		int lostToPrint = 0;
@@ -98,11 +121,16 @@ public class TickTrade {
 					}
 
 					setStake(Utils.round(getStake() * getIndex()));
-					if (lost > lostToPrint) {
-						lostToPrint = lost;
-						System.out.println(lostToPrint);
-					}
-
+				}
+				String str = "";
+				for (int i = 0; i < stat.length; i++) {
+					str = str + Integer.toString(stat[i]) + "  ";
+									}
+				System.out.println(str);
+				writeToFile(str);
+				if (lost > lostToPrint) {
+					lostToPrint = lost;
+					System.out.println(lostToPrint);
 				}
 			}
 			setTrend(down);
@@ -134,10 +162,16 @@ public class TickTrade {
 						setIndex(2.3);
 					}
 					setStake(Utils.round(getStake() * getIndex()));
-					if (lost > lostToPrint) {
-						lostToPrint = lost;
-						System.out.println(lostToPrint);
-					}
+				}
+				String str = "";
+				for (int i = 0; i < stat.length; i++) {
+					str = str + Integer.toString(stat[i]) + "  ";
+				}
+				System.out.println(str);
+				writeToFile(str);
+				if (lost > lostToPrint) {
+					lostToPrint = lost;
+					System.out.println(lostToPrint);
 				}
 			}
 			if (lostToPrint >= 8) {
@@ -202,13 +236,9 @@ public class TickTrade {
 		// Screen s = new Screen();
 		// s.find("thisContract");
 		double defaultStake = 0.5;
-		int[] stat = new int[10];
 
-		TickTrade trade = new TickTrade(defaultStake, stat);
+		TickTrade trade = new TickTrade(defaultStake);
 		trade.trade();
-		for (int i : stat) {
-			System.out.println(stat[i]);
-		}
 
 	}
 
