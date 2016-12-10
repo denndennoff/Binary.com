@@ -117,7 +117,7 @@ public class TickTrade {
 						setIndex(2.5);
 					}
 					if (redCount > 3) {
-						setIndex(2.3);
+						setIndex(1);
 					}
 
 					setStake(Utils.round(getStake() * getIndex()));
@@ -159,7 +159,7 @@ public class TickTrade {
 						setIndex(2.5);
 					}
 					if (redCount > 3) {
-						setIndex(2.3);
+						setIndex(1);
 					}
 					setStake(Utils.round(getStake() * getIndex()));
 				}
