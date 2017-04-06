@@ -72,7 +72,7 @@ public class TickTrade {
 		if (s.exists("contrConf") == null) {
 			s.click(getTrend());
 		}
-		s.wait("thisContract", 20);
+		s.wait("thisContract", 90);
 		if (s.exists("wonn") != null) {
 			setResult(true);
 		} else {
@@ -91,7 +91,7 @@ public class TickTrade {
 		while (loop) {
 			setTrend(up);
 			int countUp = 0;
-			while (countUp < 2) {
+			while (countUp < 6) {
 				countUp++;
 				makeStake(stake);
 
@@ -108,16 +108,16 @@ public class TickTrade {
 					stat[lost] = stat[lost] + 1;
 
 					if (redCount == 1) {
-						setIndex(3);
+						setIndex(2.5);
 					}
 					if (redCount == 2) {
-						setIndex(5);
+						setIndex(2.5);
 					}
 					if (redCount == 3) {
 						setIndex(2.5);
 					}
 					if (redCount > 3) {
-						setIndex(2.3);
+						setIndex(2.5);
 					}
 
 					setStake(Utils.round(getStake() * getIndex()));
@@ -135,7 +135,7 @@ public class TickTrade {
 			}
 			setTrend(down);
 			int countDown = 0;
-			while (countDown < 2) {
+			while (countDown < 6) {
 				countDown++;
 				makeStake(stake);
 				if (isResult()) {
@@ -150,16 +150,16 @@ public class TickTrade {
 					lost++;
 					stat[lost] = stat[lost] + 1;
 					if (redCount == 1) {
-						setIndex(3);
+						setIndex(2.5);
 					}
 					if (redCount == 2) {
-						setIndex(5);
+						setIndex(2.5);
 					}
 					if (redCount == 3) {
 						setIndex(2.5);
 					}
 					if (redCount > 3) {
-						setIndex(2.3);
+						setIndex(2.5);
 					}
 					setStake(Utils.round(getStake() * getIndex()));
 				}
@@ -235,7 +235,7 @@ public class TickTrade {
 		Settings.ActionLogs = false;
 		// Screen s = new Screen();
 		// s.find("thisContract");
-		double defaultStake = 0.5;
+		double defaultStake = 1;
 
 		TickTrade trade = new TickTrade(defaultStake);
 		trade.trade();

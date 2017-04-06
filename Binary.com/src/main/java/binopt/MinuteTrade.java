@@ -69,38 +69,38 @@ public class MinuteTrade {
 		}
 	}
 
-	public void trade() throws FindFailed {
-		setLoop(true);
-		while(loop) {
-			makeStake(stake);
-			if(!isResult()) {
-				if(getTrend().equals(up)) {
-					setTrend(down);
-				} else {
-					setTrend(up);
-				}
-			}
-		}
-	}
-	// Methode mit der  Trendkorrektur
 //	public void trade() throws FindFailed {
 //		setLoop(true);
-//		int count = 0;
 //		while(loop) {
 //			makeStake(stake);
 //			if(!isResult()) {
-//				count++;
-//				if(count == 2) {
 //				if(getTrend().equals(up)) {
 //					setTrend(down);
 //				} else {
 //					setTrend(up);
 //				}
-//				count = 0;
-//				}
 //			}
 //		}
 //	}
+//	 Methode mit der  Trendkorrektur
+	public void trade() throws FindFailed {
+		setLoop(true);
+		int count = 0;
+		while(loop) {
+			makeStake(stake);
+			if(!isResult()) {
+				count++;
+				if(count == 2) {
+				if(getTrend().equals(up)) {
+					setTrend(down);
+				} else {
+					setTrend(up);
+				}
+				count = 0;
+				}
+			}
+		}
+	}
 
 	// === Getters & Setters ===
 
