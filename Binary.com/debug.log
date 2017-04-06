@@ -1,0 +1,1 @@
+[0406/214135.160:ERROR:process_info.cc(372)] NtQuerySystemInformation SystemExtendedHandleInformation: {Недостаточно квот} Недостаточно квот на виртуальную память или файл подкачки для завершения требуемой операции.  (0xc0000017)
