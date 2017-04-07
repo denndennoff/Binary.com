@@ -310,8 +310,8 @@ public class SeleniumTickTrade {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		Utils.writeToFile(sdf.format(cal.getTime()));
-		Utils.writeToFile("Start balance:  " +  balanceStateStr);
-		
+		Utils.writeToFile("Start balance:  " + balanceStateStr);
+
 		final CyclicBarrier gate = new CyclicBarrier(3);
 		while (true) {
 			if (SeleniumTickTrade.getProc(c1, "top") > 100) {
@@ -373,18 +373,32 @@ public class SeleniumTickTrade {
 				tc2.start();
 				gate.await();
 
-				if (SeleniumTickTrade.stakeWon(c1)) {
-					SeleniumTickTrade.setStake(SeleniumTickTrade.getDefaultStake());
+				if (stakeWon(c1) || stakeWon(c2)) {
+					setStake(getDefaultStake());
 					Utils.writeToFile("Top won");
-					
+					WebElement close = c1.findElementById("close_confirmation_container");
+					close.click();
+					close = c2.findElementById("close_confirmation_container");
+					close.click();		
+
 				} else {
+					WebElement close = c1.findElementById("close_confirmation_container");
+					close.click();
+					close = c2.findElementById("close_confirmation_container");
+					close.click();
 					Utils.writeToFile("Bottom won");
+					setStake(Utils.round(getStake()) * getIndex());
+					WebElement amount1 = c1.findElementById("amount");
+					amount1.clear();
+					amount1.sendKeys(Double.toString(getStake()));
+					WebElement amount2 = c2.findElementById("amount");
+					amount2.clear();
+					amount2.sendKeys(Double.toString(getStake()));
+					
+
 				}
-				WebElement close = c1.findElementById("close_confirmation_container");
-				close.click();
-				close = c2.findElementById("close_confirmation_container");
-				close.click();
-				Thread.sleep(3000);
+				Thread.sleep(2000);
+				
 			}
 
 		}
@@ -417,16 +431,16 @@ public class SeleniumTickTrade {
 
 		ChromeDriver c1 = createDriver();
 		ChromeDriver c2 = createDriver();
-		
+
 		login(c1, "", "");
 		login(c2, "", "");
 
-		double stake = 10;
-		setTradeParams(c1, "8", Double.toString(stake));
-		setTradeParams(c2, "8", Double.toString(stake));
-		Thread.sleep(5000);
+		double stake = 0.5;
+		setTradeParams(c1, "10", Double.toString(stake));
+		setTradeParams(c2, "10", Double.toString(stake));
+		Thread.sleep(10000);
 
-		SeleniumTickTrade trade = new SeleniumTickTrade(stake, 2.5, stake);
+		SeleniumTickTrade trade = new SeleniumTickTrade(stake, 10, stake);
 		trade.trade(c1, c2);
 
 	}
